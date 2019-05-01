@@ -39,7 +39,7 @@
 								</a>
 
 								<span class="block2-price m-text6 p-r-5">
-									{{$value['price']}}
+									{{$value['price']}} $
 								</span>
 							</div>
 						</div>

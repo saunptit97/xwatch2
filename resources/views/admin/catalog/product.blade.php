@@ -70,7 +70,7 @@
                                     </td>
                                     <td>{{$product->status}}</td>
                                     <td>
-                                        <a href="/admin/product/update/{{$product->id}}" class="open open_modal" onclick="updateFunction({{$product->id}})"><i class="fa fa-edit"></i></a>
+                                        <a href="/admin/product/edit/{{$product->id}}" class="open open_modal" onclick="updateFunction({{$product->id}})"><i class="fa fa-edit"></i></a>
                                         <a href="/admin/product/delete/{{$product->id}}" onclick="return confirm('Are you sure delete this product?')" ><i class="fa fa-window-close"></i></a>
                                     </td>
                                 </tr>

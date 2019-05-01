@@ -164,7 +164,7 @@
 									</a>
 
 									<span class="block2-price m-text6 p-r-5">
-										{{$value['price']}} đ
+										{{$value['price']}} $
 									</span>
 								</div>
 							</div>
@@ -197,7 +197,7 @@
 				var qty =  parseInt($(".header-icons-noti").html());
 				$(".header-icons-noti").html(qty + 1);
 				$(".header-cart-wrapitem").html(response.content);
-				$(".header-cart-total").html(response.total + 'đ');
+				$(".header-cart-total").html(response.total + '$');
 			}
 		})
 		.done(function() {

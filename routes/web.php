@@ -92,7 +92,7 @@ Route::prefix('admin')->group(function () {
         ]);
         Route::get('/create', 'ProductController@create');
         Route::post('/create','ProductController@createpost');
-        Route::get('/show/{id}','ProductController@show');
+        Route::get('/edit/{id}','ProductController@edit');
         Route::post('/update/{id}', 'ProductController@update');
         Route::get('/delete/{id}', 'ProductController@delete');
     });

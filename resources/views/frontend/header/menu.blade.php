@@ -168,7 +168,7 @@
 										</a>
 
 										<span class="header-cart-item-info">
-											{{$product->qty}} x {{$product->price}} đ
+											{{$product->qty}} x {{$product->price}} $
 										</span>
 									</div>
 								</li>	
@@ -177,7 +177,7 @@
 							</ul>
 
 							<div class="header-cart-total">
-								Total: <?php echo $total ?> đ
+								Total: <?php echo $total ?> $
 								
 							</div>
 

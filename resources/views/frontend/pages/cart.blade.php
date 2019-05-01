@@ -23,7 +23,7 @@
 								</div>
 							</td>
 							<td class="column-2">{{$product->name}}</td>
-							<td class="column-3" id="price-{{$product->rowId}}">{{$product->price}}</td>
+							<td class="column-3" id="price-{{$product->rowId}}">{{$product->price}} $</td>
 							<td class="column-4">
 								<div class="flex-w bo5 of-hidden w-size17">
 									<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2" onclick="minusQty(event, '{{$product->rowId}}')">
@@ -37,7 +37,7 @@
 									</button>
 								</div>
 							</td>
-							<td class="column-5" id="total-{{$product->rowId}}">{{ $product->price * $product->qty}}</td>
+							<td class="column-5" id="total-{{$product->rowId}}">{{ $product->price * $product->qty}} $</td>
 							<td><a href="#" onclick="deleteCart(event, '{{$product->rowId}}', this)"><i class="fa fa-times" aria-hidden="true"></i></a></td>
 						</tr>
 						@endforeach
@@ -47,7 +47,7 @@
 							<td></td>
 							<td></td>
 							<td>Total:</td>
-							<td id="total">{{$total}} đ</td>
+							<td id="total">{{$total}} $</td>
 						</tr>
 					</table>
 

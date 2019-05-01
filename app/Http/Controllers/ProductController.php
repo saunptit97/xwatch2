@@ -45,7 +45,8 @@ class ProductController extends Controller
     		$product->description = $request->description;
     		$product->quantity = (int) $request->quantity;
     		$product->id_brand = (int) $request->id_brand;
-    		$product->id_cat = (int) $request->id_cat;
+			$product->id_cat = (int) $request->id_cat;
+			$product->url = $request->name;
     		$file = $request->image;
     		$product->image = uniqid().'_'.time().'_'.date('Ymd').'.' . $file->getClientOriginalName();
     		$product->is_feature = $request->is_feature;
@@ -57,15 +58,38 @@ class ProductController extends Controller
             return response()->json(['success' => true]);
     	}
     }
-    public function show($id){
+    public function edit($id){
     	$product = Product::find($id);
-    	echo json_encode(['product' => $product]);
+		$brands = Brand::all();
+        $categories = Category::all();
+        return view('admin.catalog.product_update',[
+            'categories' => $categories,
+			'brands' => $brands,
+			'product' => $product
+        ]);
     }
     public function update(Request $request, $id){
+		$product = Product::find($id);
+		$product->name = $request->name;
+		$product->price = $request->price;
+		$product->description = $request->description;
+		$product->quantity = (int) $request->quantity;
+		$product->id_brand = (int) $request->id_brand;
+		$product->id_cat = (int) $request->id_cat;
+		$file = $request->image;
+		// if( $file->getClientOriginalName()!= null){
+		// 	$product->image = uniqid().'_'.time().'_'.date('Ymd').'.' . $file->getClientOriginalName();
+		// }
+		
+		$product->is_feature = $request->is_feature;
+		$product->status = $request->status;
+		// $file->move('upload', $product->image);
 
+		$product->save();
+		return redirect()->route('product')->with('success', 'Update the product successfully!');
     }
     public function delete($id){
     	Product::find($id)->delete();
     	return redirect()->route('product')->with('success', 'Delete the product successfully!');
-    }
+	}
 }
