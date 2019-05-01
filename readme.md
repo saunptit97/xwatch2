@@ -9,6 +9,6 @@
 
 - Cài đặt môi trường Laravel 
 composer global require laravel/installer
-- Cài đặt và chạy
-composer install 
-php artisan serve
+- Cài đặt và chạy 
+<p>composer install </p>
+<p>php artisan serve</p>
