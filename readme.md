@@ -7,8 +7,8 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-- Cài đặt môi trường Laravel 
-composer global require laravel/installer
+- Cài đặt môi trường Laravel: 
+<p>composer global require laravel/installer</p>
 - Cài đặt và chạy 
 <p>composer install </p>
 <p>php artisan serve</p>

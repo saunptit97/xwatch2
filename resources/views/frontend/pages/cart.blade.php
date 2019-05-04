@@ -23,7 +23,7 @@
 								</div>
 							</td>
 							<td class="column-2">{{$product->name}}</td>
-							<td class="column-3" id="price-{{$product->rowId}}">{{$product->price}} $</td>
+							<td class="column-3" ><span id="price-{{$product->rowId}}">{{$product->price}}</span> $</td>
 							<td class="column-4">
 								<div class="flex-w bo5 of-hidden w-size17">
 									<button class="btn-num-product-down color1 flex-c-m size7 bg8 eff2" onclick="minusQty(event, '{{$product->rowId}}')">
@@ -37,7 +37,7 @@
 									</button>
 								</div>
 							</td>
-							<td class="column-5" id="total-{{$product->rowId}}">{{ $product->price * $product->qty}} $</td>
+							<td class="column-5" ><span id="total-{{$product->rowId}}">{{ $product->price * $product->qty }} </span> $</td>
 							<td><a href="#" onclick="deleteCart(event, '{{$product->rowId}}', this)"><i class="fa fa-times" aria-hidden="true"></i></a></td>
 						</tr>
 						@endforeach
@@ -120,10 +120,10 @@
 			data:{'qty' : qty},
 			success: function(response){
 				$("#total-" + id).html(qty * price);
-				$("#total").html(response.total + " đ");
+				$("#total").html(response.total + " $");
 				$(".header-icons-noti").html(response.count);
 				$(".header-cart-wrapitem").html(response.content);
-				$(".header-cart-total").html(response.total + 'đ');
+				$(".header-cart-total").html(response.total + '$');
 			}
 		})
 		.done(function() {

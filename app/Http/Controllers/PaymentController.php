@@ -45,16 +45,21 @@ class PaymentController extends Controller
     }
     public function payWithpaypal(Request $request)
     {
-        $user = new User();
-        $user->fullname = $request->fullname;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
-        $user->address = $request->address;
-        $user->save();
+        $user = Session::get('user');
+        if(!$user){
+            $user = new User();
+            $user->fullname = $request->fullname;
+            $user->email = $request->email;
+            $user->phone = $request->phone;
+            $user->address = $request->address;
+            $user->save();
+        } 
         $bill = new Bill();
         $bill->id_user = $user->id;
         $bill->total = $request->total;
-        $bill->status = 1;
+        $bill->status = 0;
+        $bill->address = $request->address;
+        $bill->method = $request->method; 
         $bill->save();
         $carts = Cart::content();
         

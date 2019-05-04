@@ -52,12 +52,12 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $userGoogle = Socialite::driver('google')->user();
+        $userGoogle = Socialite::driver('google')->stateless()->user();
         $userGoogleId = $userGoogle->getId() . '';
         $auth = DB::table('user')->where('id_provider', $userGoogleId)->first();
+    
         if($auth){
             Session::put('user', $auth);
-            echo "AAA";
         }else{
             $user = new User();
             $user->email = $userGoogle->getEmail();

@@ -11,8 +11,8 @@ class OrderController extends Controller
     public function index(){
     	$bills = DB::table('bill')
             ->join('user', 'user.id', '=', 'bill.id_user')
-            ->select('bill.id', 'bill.created_at' , 'bill.total' , 'bill.status' , 'user.fullname' , 'user.email' , 'user.address')
-            ->get();
+            ->select('bill.id', 'bill.created_at' , 'bill.total' , 'bill.status' , 'user.fullname' , 'user.email' , 'bill.address', 'bill.method')
+            ->orderBy('created_at', 'desc')->get();
     	return view('admin.pages.sale.order',[
     		'bills' => $bills
     	]);

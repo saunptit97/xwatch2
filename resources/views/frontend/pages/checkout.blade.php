@@ -22,16 +22,16 @@
 				<div class="col-md-6 p-b-30 checkout">
 					<label><i class="fa fa-home"></i> Shipping address</label>
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" required type="text" name="email" placeholder="Email address">
+						<input class="sizefull s-text7 p-l-22 p-r-22" required type="text" name="email" id="email" placeholder="Email address">
 					</div>
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" required  type="text" name="fullname" placeholder="Full Name">
+						<input class="sizefull s-text7 p-l-22 p-r-22" required  type="text" name="fullname" id="fullname" placeholder="Full Name">
 					</div>
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" required  type="text" name="phone" placeholder="Phone">
+						<input class="sizefull s-text7 p-l-22 p-r-22" required  type="text" name="phone" id="phone" placeholder="Phone">
 					</div>
 					<div class="bo4 of-hidden size15 m-b-20">
-						<input class="sizefull s-text7 p-l-22 p-r-22" required type="text" name="address" placeholder="Address">
+						<input class="sizefull s-text7 p-l-22 p-r-22" required type="text" name="address" id="address" placeholder="Address">
 					</div>
 				</div>
 				
@@ -52,7 +52,7 @@
 									</a>
 
 									<span class="header-cart-item-info">
-										{{$product->qty}} x {{$product->price}} đ
+										{{$product->qty}} x {{$product->price}} $
 									</span>
 								</div>
 							</li>	
@@ -67,12 +67,12 @@
 					<div class="method">
 						<label><i class="fa fa-check-square"></i> Method</label>
 						<select name="method"  class="form-control">
-							<option value="1">Payment on delivery</option>
-							<option value="2">Payment on Paypal</option>
+							<option value="0">Paym ent on delivery</option>
+							<option value="1">Payment on Paypal</option>
 						</select>
 					</div>
 					<div class="header-cart-total">
-							<input type="hidden" name="total" value="{{$total}}" />Total: <?php echo $total ?> đ
+							<input type="hidden" name="total" value="{{$total}}" />Total: <?php echo $total ?> $
 						</div> 
 					<div class="header-cart-buttons">
 						<div class="header-cart-wrapbtn">
@@ -95,9 +95,15 @@
 
 <script>
 	$(document).ready(function() {
+		<?php if(isset($user)) : ?>
+		$("#email").val("<?php echo $user->email ?>");
+		$("#address").val("<?php echo $user->address ?>");
+		$("#fullname").val("<?php echo $user->fullname ?>");
+		$("#phone").val("<?php echo $user->phone ?>")
+		<?php endif?>
 		$('select').on('change', function () {
 			var selectedValue = this.selectedOptions[0].value;
-			if(selectedValue == 2){
+			if(selectedValue == 1){
 				$("#form-checkout").attr("action", "/paypalpost");
 			}else{
 				$("#form-checkout").attr("action", "/process-checkout");

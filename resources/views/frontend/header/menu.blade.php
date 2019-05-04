@@ -56,6 +56,21 @@
         .btn-danger{
             background: #ac2925 !important;
         }
+		.header-logout {
+			display: none;
+			position: absolute;
+			background: #fbfbfb;
+			width: 150px;
+			right: 0;
+			top: 55;
+			box-shadow: 0 3px 3px rgba(0,0,0,0.15);
+			border: 1px solid #bbb;
+			padding: 5px 20px;
+		}
+		.error{
+			margin-bottom: 10px;
+			color: red;
+		}
 </style>
 <header class="header1">
 		<!-- Header desktop -->
@@ -137,8 +152,22 @@
 				<div class="header-icons">
 					
 						<?php if(Session::get('user')): ?>
-							
-							<a href="/customer/account" class="header-wrapicon1 dis-block"><img src="{{Session::get('user')->image}}" class="header-icon1" alt="ICON" style="-webkit-border-radius: 50%"></a>
+							<div class="header-logo-user header-wrapicon1 dis-block">
+							<?php if(Session::get('user')->image) : ?>
+							<img src="{{Session::get('user')->image}}" class="header-icon1" alt="ICON" style="-webkit-border-radius: 50%;">
+							<?php else: ?>
+							<img src="{{asset('images/icons/icon-header-03.png')}}" class="header-icon1" alt="ICON">
+							<?php endif?>
+							<div class="header-logout">
+								<ul class="header links">
+									<li><a href="/customer/account">My Account</a></li>
+									
+									<li class="authorization-link" data-label="or">
+										<a href="/customer/account/logout" data-post="{&quot;action&quot;:&quot;http:\/\/osc.demo.mageplaza.com\/customer\/account\/logout\/&quot;,&quot;data&quot;:{&quot;uenc&quot;:&quot;aHR0cDovL29zYy5kZW1vLm1hZ2VwbGF6YS5jb20vY3VzdG9tZXIvYWNjb3VudC8,&quot;}}">Sign Out    </a>
+									</li>
+								</ul>
+							</div>
+							</div>
 						<?php else: ?>
 							<a href="#" class="header-wrapicon1 dis-block" data-toggle="modal" data-target="#myModal">
 								<img src="{{asset('images/icons/icon-header-01.png')}}" class="header-icon1" alt="ICON">
@@ -215,16 +244,17 @@
 									<span>Sign In</span>
 								</div>
 								<div class="content">
-									<!-- <form class="form-customer-login" id="social-form-login" method="POST" > -->
-										<span class="message"></span>
+									<form class="form-customer-login" id="social-form-login" method="POST">
+										{{csrf_field()}}
+										<div class="error"><span class="message"></span></div>
 										<label>Username:</label> <span class="required"> *</span></br>
-										<input type="text" name="username" id="email" required style="border: 1px solid #3399cc !important"/> </br>
+										<input type="text" name="username" id="username" required style="border: 1px solid #3399cc !important"/> </br>
 										<label>Password</label><span class="required"> *</span></br>
-										<input type="password" name="password" required id="pass" style="border: 1px solid #3399cc !important">
+										<input type="password" name="password" required id="password" style="border: 1px solid #3399cc !important">
 										<button type="submit" id="bnt-social-login-authentication" class="action login primary">Login</button>
 										<a href="#" id="forgot-popup">Forgot your password?</a>
 										<a href="#" id="create-popup" class="create">Create new account?</a>
-								<!--    </form> -->
+								   </form>
 								</div> 
 							</div>
 							<div class="col-md-6">
@@ -286,7 +316,7 @@
 										</a>
 
 										<span class="header-cart-item-info">
-											{{$product->qty}} x {{$product->price}} đ
+											{{$product->qty}} x {{$product->price}} $
 										</span>
 									</div>
 								</li>
@@ -391,7 +421,33 @@
 	</header>
 
 <script>
-	// $(".dis-block").click(function(){
-	// 	$(".social-login ").show();
-	// })
+	$(".header-logo-user img").click(function(){
+		// $(".social-login ").show();
+		if($(".header-logout").css("display") == "none"){
+			$(".header-logout").css("display", "block");
+		}else{
+			$(".header-logout").css("display", "none");
+		}
+		
+	})
+	$("#bnt-social-login-authentication").click(function(e){
+		e.preventDefault();
+		var _token = $("input[name='_token']").val();
+		$.ajax({
+            type: 'POST',
+			url: '/customer/login',
+			data: $('#social-form-login').serialize(),
+            
+            success: function(response){
+            	if(response['success'] == true){
+					
+					location.reload();
+				}else{
+					$(".message").html("Invalid account!");
+				}
+               
+            }
+        });
+	});
+
 </script>

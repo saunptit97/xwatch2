@@ -11,7 +11,13 @@
     .block-dashboard-info, .block-dashboard-addresses{
         margin-bottom: 40px;
     }
-</style>
+    .modal-body input{
+        border: 1px solid #ccc !important;
+        margin-bottom: 5px;
+    }
+</style>    
+
+<?php $user = Session::get('user'); ?>
 <div class="container">
     <h2 class="title">My Dashboard</h2>
     <div class="recent-order">
@@ -23,44 +29,76 @@
                         <th scope="col" class="col date">Date</th>
                         <th scope="col" class="col shipping">Ship To</th>
                         <th scope="col" class="col total">Order Total</th>
+                        <th scope="col" class="col total">Method</th>
+                    
                         <th scope="col" class="col status">Status</th>
                         <th scope="col" class="col actions">Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach($bills as $bill) :?>
                         <tr>
-                            <td data-th="Order #" class="col id">000000002</td>
-                            <td data-th="Date" class="col date">3/9/17</td>
-                            <td data-th="Ship To" class="col shipping">Veronica Costello</td>
-                            <td data-th="Order Total" class="col total"><span class="price">$39.64</span></td>
-                            <td data-th="Status" class="col status">Complete</td>
+                            <td data-th="Order #" class="col id">{{$bill->id}}</td>
+                            <td data-th="Date" class="col date">{{$bill->created_at}}</td>
+                            <td data-th="Ship To" class="col shipping">{{$bill->address}}</td>
+                            <td data-th="Order Total" class="col total"><span class="price">{{$bill->total}}</span></td>
+                            <td data-th="Order Total" class="col total">
+                                @if($bill->method == 1)
+                                    <span>Paypal</span>
+                                @else
+                                    <span>Payment on delivery</span>
+                                @endif    
+                            </td>
+                            <td data-th="Status" class="col status">
+                                @if($bill->status == 0) 
+                                <span>Process</span></td>
+                                @elseif($bill->status ==2 )
+                                <i class="fa fa-truck"></i></td>
+                                @else
+                                <i class="fa fa-check-circle"></i></td>
+                                @endif
+                                        </td>
                             <td data-th="Actions" class="col actions">
                                 <a href="http://lnulti.demo.mageplaza.com/sales/order/view/order_id/2/" class="action view">
                                     <span>View Order</span>
                                 </a>
-                                <a href="#" data-post="{&quot;action&quot;:&quot;http:\/\/lnulti.demo.mageplaza.com\/sales\/order\/reorder\/order_id\/2\/&quot;,&quot;data&quot;:{&quot;uenc&quot;:&quot;aHR0cDovL2xudWx0aS5kZW1vLm1hZ2VwbGF6YS5jb20vY3VzdG9tZXIvYWNjb3VudC8,&quot;}}" class="action order">
-                                    <span>Reorder</span>
-                                </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td data-th="Order #" class="col id">000000001</td>
-                            <td data-th="Date" class="col date">3/9/17</td>
-                            <td data-th="Ship To" class="col shipping">Veronica Costello</td>
-                            <td data-th="Order Total" class="col total"><span class="price">$36.39</span></td>
-                            <td data-th="Status" class="col status">Processing</td>
-                            <td data-th="Actions" class="col actions">
-                                <a href="http://lnulti.demo.mageplaza.com/sales/order/view/order_id/1/" class="action view">
-                                    <span>View Order</span>
-                                </a>
-                                <a href="#" data-post="{&quot;action&quot;:&quot;http:\/\/lnulti.demo.mageplaza.com\/sales\/order\/reorder\/order_id\/1\/&quot;,&quot;data&quot;:{&quot;uenc&quot;:&quot;aHR0cDovL2xudWx0aS5kZW1vLm1hZ2VwbGF6YS5jb20vY3VzdG9tZXIvYWNjb3VudC8,&quot;}}" class="action order">
-                                    <span>Reorder</span>
-                                </a>
-                            </td>
-                        </tr>
+                    <?php endforeach ?>
+                     
                 </tbody>
             </table>
     </div>
+    
+
+<!-- Modal -->
+<div id="edit-contact" class="modal fade" role="dialog" style="z-index: 9999;">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Contact Information</h4>
+      </div>
+      <div class="modal-body" >
+        <form>
+            <label>Full name:</label>
+            <input class="form-control" value="{{$user->fullname}}"/>
+            <label>Email: </label>
+            <input class="form-control" value="{{$user->email}}"/>
+            <label>Address: </label>
+            <input class="form-control" value="{{$user->address}}"/>
+            <label>Phone: </label>
+            <input class="form-control" value="{{$user->phone}}"/>
+            <button class="btn btn-primary">Update</button>
+        </form>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
     <div class="block block-dashboard-info">
         <div class="block-title"><strong>Account Information</strong></div>
         <div class="block-content row">
@@ -69,17 +107,14 @@
                     <span>Contact Information</span>
                 </strong>
                 <div class="box-content">
-                    <p>
-                        Veronica Costello<br>
-                        roni_cost@example.com<br>
-                    </p>
+                    <p><span style="font-weight: bold">Name: </span>{{$user->fullname}}</p>
+                    <p><span style="font-weight: bold">Email: </span>{{$user->email}}</p>
+                    <p><span style="font-weight: bold">Address: </span>{{$user->address}}</p>
+                    <p><span style="font-weight: bold">Phone: </span>{{$user->phone}}</p>
+
                 </div>
                 <div class="box-actions">
-                    <a class="action edit" href="http://lnulti.demo.mageplaza.com/customer/account/edit/">
-                        <span>Edit</span>
-                    </a>
-                    <a href="http://lnulti.demo.mageplaza.com/customer/account/edit/changepass/1/" class="action change-password">
-                        Change Password                </a>
+                    <span data-toggle="modal" data-target="#edit-contact">Edit</span>
                 </div>
             </div>
             <div class="box box-newsletter col-md-6">
@@ -95,48 +130,7 @@
             </div>
             </div>
     </div>
-    <div class="block block-dashboard-addresses">
-        <div class="block-title">
-            <strong>Address Book</strong>
-            <a class="action edit" href="http://lnulti.demo.mageplaza.com/customer/address/"><span>Manage Addresses</span></a>
-        </div>
-        <div class="block-content row">
-            <div class="box box-billing-address col-md-6">
-                <strong class="box-title">
-                    <span>Default Billing Address</span>
-                </strong>
-                <div class="box-content">
-                    <address>
-                        Veronica Costello<br>
-                        6146 Honey Bluff Parkway<br>
-                        Calder,  Michigan, 49628-7978<br>
-                        United States<br>
-                        T: (555) 229-3326
-                    </address>
-                </div>
-                <div class="box-actions">
-                    <a class="action edit" href="http://lnulti.demo.mageplaza.com/customer/address/edit/id/1/" data-ui-id="default-billing-edit-link"><span>Edit Address</span></a>
-                </div>
-            </div>
-            <div class="box box-shipping-address col-md-6">
-                <strong class="box-title">
-                    <span>Default Shipping Address</span>
-                </strong>
-                <div class="box-content">
-                    <address>
-                        Veronica Costello<br>
-                        6146 Honey Bluff Parkway<br>
-                        Calder,  Michigan, 49628-7978<br>
-                        United States<br>
-                        T: (555) 229-3326
-                    </address>
-                </div>
-                <div class="box-actions">
-                    <a class="action edit" href="http://lnulti.demo.mageplaza.com/customer/address/edit/id/1/" data-ui-id="default-shipping-edit-link"><span>Edit Address</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 </div>
 
 @endsection

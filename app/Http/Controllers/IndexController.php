@@ -11,7 +11,7 @@ use App\Bill;
 use App\DetailBill;
 use Cart;
 use Validator;
-
+use Session;
 class IndexController extends Controller
 {
     public function index(){
@@ -127,17 +127,22 @@ class IndexController extends Controller
             $errors = $validator->errors();
             return response()->json(['errors'=> $errors]);
         }else{
-            if($request->method == 1){
+            $user = Session::get('user');
+            if(!$user){
                 $user = new User();
                 $user->fullname = $request->fullname;
                 $user->email = $request->email;
                 $user->phone = $request->phone;
                 $user->address = $request->address;
                 $user->save();
-                $bill = new Bill();
-                $bill->id_user = $user->id;
-                $bill->total = $request->total;
-                $bill->save();
+            } 
+            $bill = new Bill();
+            $bill->id_user = $user->id;
+            $bill->total = $request->total;
+            $bill->status = 0;
+            $bill->address = $request->address;
+            $bill->method = $request->method; 
+            $bill->save();
                 $carts = Cart::content();
                 
                 foreach ($carts as $key => $value) {
@@ -148,10 +153,7 @@ class IndexController extends Controller
                     $detail->save();
                 }
                 Cart::destroy();
-                echo json_encode(['success' => true]); 
-            }else{
-                return redirect()->route('paypal');
-            }
+             return redirect()->route('home');
             
         }
     }

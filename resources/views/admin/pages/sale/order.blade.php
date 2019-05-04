@@ -20,6 +20,7 @@
                   <th>Email</th>
                   <th>Address</th>
                   <th>Total</th>
+                  <th>Method</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -28,12 +29,20 @@
                 @foreach($bills as $key => $value)
                 <tr>
                   
-                  <td>{{$value->id}}</td>
+                  <td>{{$key + 1}}</td>
                   <td>{{$value->created_at}}</td>
                   <td>{{$value->fullname}}</td>
                   <td>{{$value->email}}</td>
                   <td>{{$value->address}}</td>
                   <td>{{$value->total}} đ</td>
+                  <td>
+                    @if($value->method == 1)
+                        <span>Paypal</span>
+                    @else
+                        <span>Payment on delivery</span>
+                    @endif   
+                  
+                  </td>
                   <td>
                     @if($value->status == 0) 
                     <span>Process</span></td>

@@ -22,7 +22,7 @@ Route::prefix('')->group(function(){
     Route::get('product/{url}', 'IndexController@getDetailProduct');
 
     Route::get('cart', 'IndexController@cart');
-    Route::get('customer/account', 'CustomerAccount@index');
+   
     Route::get('add-to-cart/{id}', 'IndexController@addToCart');
     Route::get('update-cart/{id}', 'IndexController@updateCart');
     Route::get('delete-cart/{id}', 'IndexController@deleteCart');
@@ -45,6 +45,9 @@ Route::prefix('')->group(function(){
     Route::get('auth/google', 'Auth\LoginController@redirectToProvider');
 
     Route::get('auth/google/callback', 'Auth\LoginController@handleProviderCallback');
+    Route::get('customer/account', 'CustomerAccount@index');
+    Route::get('customer/account/logout', 'CustomerAccount@logout');
+    Route::post('customer/login', 'CustomerAccount@login'); 
 });
 
 Route::prefix('admin')->group(function () {

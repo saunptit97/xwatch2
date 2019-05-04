@@ -30,11 +30,11 @@ class AppServiceProvider extends ServiceProvider
             $cart = Cart::content();
             $view->with('cart', $cart);
         });
-        if(Session::get('user')){
+       
             view()->composer('*', function($view){
                 $view->with('user', Session::get('user'));
             });
-        }
+       
     }
 
     /**
